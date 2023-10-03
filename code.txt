@@ -1,0 +1,635 @@
+CREATE TABLE Types_pay(
+    Type_payID INTEGER NOT NULL PRIMARY KEY,
+    type VARCHAR(20)
+);
+
+INSERT INTO Types_pay (type)
+VALUES ('Check'),('Debit'),('Credit'),('Paypal');
+-- ====================================================--
+
+-- ======================= USERS_TYPE TABLE =======================--
+CREATE TABLE Users_types(
+    user_typeID INTEGER NOT NULL PRIMARY KEY,
+    type VARCHAR(20)
+);
+
+INSERT INTO Users_types (type)
+VALUES
+    ('Administrador'),
+    ('Client');
+
+-- =====================================================--
+
+
+-- ======================= USERS TABLE ======================= --
+CREATE TABLE Users(
+    user_ID INTEGER NOT NULL PRIMARY KEY,
+    name VARCHAR(30),
+    gmail VARCHAR(30) UNIQUE,
+    password VARCHAR(30),
+    phone INTEGER NOT NULL UNIQUE,
+    user_typeID INTEGER, -------------
+    type_payID INTEGER, -------------
+    FOREIGN KEY (type_payID) REFERENCES Types_pay (type_payID) ON DELETE CASCADE
+    FOREIGN KEY (user_typeID) REFERENCES Users_types (user_typeID) ON DELETE CASCADE
+);
+
+INSERT INTO Users (name,gmail,password,phone,user_typeID,type_payID )
+VALUES 
+('Valery Duarte', 'valerita2003@gmail.com', 'fresa123', 61639111, 1, NULL),
+('Raul Espinoza', 'chutyteamo13@gmail.com', 'chutylover#1', 88654232, 1, NULL),
+('Ariana Grande', 'raulminovio@gmail.com', 'raulguapo', 76543267, 2, 3),
+('Deylan Obando','Deylanfreefire@gmail.com','freefire1234',65432813,2,4),
+('Barry Vega','flash123@gmail.com','soyflash4',76453321,2,1);
+
+-- ====================================================--
+
+-- ======================= BOOKS TABLE =======================--
+CREATE TABLE Books(
+    book_ID INTEGER NOT NULL PRIMARY KEY,
+    name VARCHAR(20),
+    price INTEGER,
+    description VARCHAR(600),
+    date_f DATE,
+    quantity INTEGER NOT NULL,
+    available BOOLEAN DEFAULT TRUE,
+    ISBN INTEGER NOT NULL
+);
+
+INSERT INTO
+    Books (name,price,description,date_f,quantity,ISBN)
+VALUES
+    ('Song Of Ice And Fire Game Of Thrones',
+        25,
+        'Se acerca el invierno. Ese es el severo lema de la Casa Stark, el más septentrional de los feudos que deben lealtad al rey Robert Baratheon en el lejano Desembarco del Rey. Allí, Eddard Stark de Winterfell gobierna en nombre de Robert. Allí vive su familia en paz y comodidad: su orgullosa esposa, Catelyn; sus hijos Robb, Brandon y Rickon; sus hijas Sansa y Arya; y su hijo bastardo, Jon Snow. Lejos al norte, detrás del imponente Muro, se encuentran Wildings salvajes y cosas peores: cosas antinaturales relegadas al mito durante el verano de siglos, pero demostrando ser demasiado reales y demasiado mortales en el cambio de estación.',
+        '2022-05-12',
+        10,
+        '9780553386790'
+    ),
+    (
+        'Teoría del amor',
+        30,
+        'Las múltiples vidas de la física teórica Elsie Hannaway han acabado atrapándola. De día es profesora adjunta. Se afana en corregir exámenes y enseñar termodinámica con la esperanza de, algún día, conseguir la titularidad. De noche, complementa su inexistente sueldo ofreciendo el servicio de ser una novia falsa, lo cual lleva a cabo con éxito gracias a sus habilidades para caerle bien a la gente y encarnar cualquier versión de sí misma que necesite el cliente.',
+        '2008-07-16',
+        8,
+        9788418945700
+    ),
+    (
+        'Leyenda Del Volcán',
+        38,
+        'Costa Rica, diciembre de 1883. Aitana Ugarte, una joven bilbaína, desembarca en Puerto Limón para casarse por matrimonio concertado con un terrateniente de sesenta años, dueño de un cafetal en las prósperas Tierras Altas de Turrialba, a las faldas de un volcán legendario sobre el cual circula una misteriosa leyenda.',
+        '2004-12-21',
+        12,
+        9788401030543
+    ),
+    (
+        'Prometeo Americano',
+        26,
+        'El 16 de julio de 1945, en el desierto de Nuevo México, se detonaba en secreto la primera bomba atómica. Impactado por el poder destructivo de su creación, J. Robert Oppenheimer, director del Proyecto Manhattan, se comprometería desde entonces a luchar contra el desarrollo de la bomba de hidrógeno y contra la guerra nuclear. Sospechoso de comunista para los Estados Unidos de la era McCarthy, fue perseguido por el FBI, calumniado como espía de la Unión Soviética y obligado a dimitir de cualquier función pública. Su vida privada fue arrastrada del mismo modo hacia el esperpento; su casa fue allanada con micrófonos ocultos, y su teléfono, intervenido. No sería hasta 1963 que el presidente Kennedy lo rehabilitaría y, con ello, su figura obtendría otro cariz para los ciudadanos del mundo entero.',
+        '1990-05-20',
+        5,
+        9786287669031
+    ),
+    (
+        'Principito',
+        9,
+        'El 6 de abril de 1943 se presentaba en Estados Unidos la edición original de El Principito, de Antoine de Saint-Exupéry, en aquel entonces exiliado en Nueva York. Autorretrato y obra testamentaria, fábula mítica y relato filosófico que interroga acerca dela relación del ser humano con su prójimo y con el mundo, El Principito concentra, con maravillosa simplicidad, la larga y constante reflexión de Saint-Exupéry sobre la amistad, el amor, la responsabilidad y el sentido de la vida, en un contexto marcado por el conflicto mundial y el desasosiego de un escritor piloto profundamente afectado por su soledad.',
+        '2011-08-16',
+        18,
+        9786073803762
+    ),
+    (
+        'Alicia en el País de las Maravillas',
+        22,
+        'Estás a punto de entrar en el mundo de Alicia, el más extraño y asombroso, disparatado e insólito que hayas conocido y que jamás vas a olvidar. En este mundo, los gatos desaparecen sonrientes, las reinas tienen ejércitos de naipes, los conejos visten chaleco y te apremian para que los sigas. Y si los sigues, caerás por el agujero de su madriguera… Hasta el País de las Maravillas',
+        '2001-04-18',
+        30,
+        9788408160106
+    ),
+    (
+        'Problema final',
+        10,
+        'Un temporal mantiene aisladas en la idílica isla de Utakos, frente a Corfú, a nueve personas alojadas en el pequeño hotel local. Nada hace presagiar lo que está a punto de ocurrir: Edith Mander, una discreta turista inglesa, aparece muerta en el pabellón de la playa. Lo que parece un suicidio revela indicios imperceptibles para cualquiera salvo para Hopalong Basil, un actor en decadencia que en otro tiempo encarnó en la pantalla al más célebre detective de todos los tiempos.',
+        '2008-08-24',
+        22,
+        9786287659131
+    ),
+    (
+        'Crimen Descatalogado',
+        15,
+        'Todo el mundo en Athena, Misisipi, conoce a Charlie Harris, el amable bibliotecario dueño de un gato llamado Diesel al que pasea con correa. Ha regresado a su ciudad natal para sumergirse en los libros, pero pronto la vida real lo envuelve en una novela de misterio…',
+        '2020-01-01',
+        18,
+        9788418933608
+    ),
+    (
+        'Cuco de cristal',
+        25,
+        'Nueva York, 2017. Cora Merlo, médico residente de primer año, sufre un infarto fulminante que la obliga a un trasplante de corazón. Aún convaleciente la joven recibe la visita de una extraña mujer con una enigmática oferta: pasar unos días en Steelville, un pequeño pueblo de interior, para conocer la vida de su hijo Charles, el donante de su corazón.',
+        '2022-03-29',
+        16,
+        9788491293552
+    ),
+    (
+        'Lo Último Que Me Dijo',
+        9,
+        'Antes de que Owen Michaels desapareciera, consiguió pasar a escondidas una nota a su nueva esposa, Hannah: «Protégela». Hannah sabe exactamente a quién se refiere la nota: Bailey, la hija adolescente de Owen, quien perdió trágicamente a su madre cuando era niña y que no quiere tener absolutamente nada que ver con su nueva madrastra.',
+        '2022-08-23',
+        20,
+        9789588763736
+    ),
+    (
+        'Aqui Vivio Nefertiti',
+        12,
+        'A Mary Chubb se la conoce como «la arqueóloga accidental» porque, como cuenta al principio de estas memorias, ella lo que quería ser era escultora y a esta vocación dedicó sus estudios. Sin embargo, un trabajo de secretaria adjunta en la Sociedad para la Exploración de Egipto, que empezó siendo una forma de llegar a fin de mes, acabó convirtiéndose una pasión. En 1930 se unió a una expedición, dirigida por el arqueólogo John Pendlebury, al yacimiento de Tell el-Amarna, los restos de Aketatón, la efímera capital que fundó el herético faraón Akenatón (esposo de Nefertiti, padre de Tutankamón).',
+        '2021-06-17',
+        16,
+        9788490658413
+    ),
+    (
+        'La armadura de la luz',
+        25,
+        'a revolución está en el aire 1792. Un gobierno despótico está decidido a convertir Inglaterra en un poderoso imperio comercial. Y, desde otro lado del mar, suenan tambores de guerra mientras Napoleón Bonaparte comienza su ascenso al poder y prepara un violento plan para convertirse en emperador del mundo.',
+        '2021-07-06',
+        23,
+        9788401030130
+    ),
+    (
+        'Tablero de La Reina',
+        18,
+        'Año 1468. Castilla se encuentra en un momento crucial de su historia. Alfonso de Trastámara ha muerto en sospechosas circunstancias y Enrique IV se alza como rey obligando a su hermanastra Isabel, la única que podría oponerse a sus planes, a firmar la paz. Ella acepta, pues está destinada a convertirse en Isabel la Católica y sabe que las grandes partidas no se ganan en el primer movimiento',
+        '2020-08-23',
+        19,
+        9788466673587
+    ),
+    (
+        'Esclava de la Libertad',
+        15,
+        'A la isla caribeña arriba un barco portador de una siniestra carga. Más de setecientas mujeres y niñas secuestradas de su África natal llegan para trabajar, hasta la extenuación, en los campos de caña de azúcar y parir hijos que serán también esclavos. Kaweka es una de ellas, una muchacha que vivirá en primera persona el horror de la esclavitud en la hacienda del cruel marqués de Santadoma, pero que pronto demostrará a quienes la rodean que posee la facultad de comulgar con Yemayá. Esta es una diosa voluble que, en ocasiones, le concede el don de la curación y le proporciona la fuerza para liderar a sus hermanos de raza en la lucha por la libertad contra unos opresores que han logrado esclavizar sus cuerpos, pero no sus almas.',
+        '2022-12-28',
+        23,
+        9788425361791
+    ),
+    (
+        'Roma Soy Yo',
+        9,
+        'Roma, año 77 a.C. El cruel senador Dolabela va a ser juzgado por corrupción, pero ha contratado a los mejores abogados, ha comprado al jurado y, además, es conocido por usar la violencia contra todos los que se enfrentan a él. Nadie se atreve a ser el fiscal, hasta que de pronto, contra todo pronóstico, un joven patricio de tan solo veintitrés años acepta llevar la acusación, defender al pueblo de Roma y desafiar el poder de las élites. El nombre del desconocido abogado es Cayo Julio César.',
+        '2021-11-13',
+        17,
+        9788413147154
+    ),
+    (
+        'Poder y oscuridad 1 Belleza Oscura',
+        12,
+        'Luca Vitale, de buen corazón y sentimientos puros, es el heredero de un mundo grotesco. Alayna Novak, de ojos angelicales y lengua afilada, tiene las manos manchadas de la sangre de otros. Sabe que es un instrumento mortal, que su encanto es parte de su trampa, y por eso mantiene a todo el mundo a una distancia prudencial.',
+        '2019-04-24',
+        23,
+        9788419501646
+    ),
+    (
+        'La Imitacion De Cristo',
+        8,
+        'La imitación de Cristo es un clásico de la literatura mística y uno de los libros más traducidos después de la Biblia. Al teólogo, humanista y estilista mexicano Agustín Magaña Méndez se debe esta versión moderna en castellano.',
+        '2016-08-16',
+        27,
+        9788425437182
+    ),
+    (
+        'Vida Es Una Limonada',
+        10,
+        'Una vida con sabor a limón significa que te conformaste con no explotar al máximo todo tu potencial. Es aceptar tu vida tal como es, basada en excusas y en reclamar derechos sin cumplir deberes dando la impresión de estar trabajando en pos de tus metas cuando en realidad estás fingiendo hacerlo sin mucho esfuerzo. La vida con sabor a limonada consiste en vivir de acuerdo a tus propios términos, con propósito y posibilidades; y de eso precisamente trata este libro. Habla de cómo dejar de vivir pasivamente, con ese amargo sabor a limón, para comenzar a liderar tu vida activamente, de tal modo que te sepa a limonada.',
+        '2018-04-12',
+        13,
+        9789580101369
+    ),
+    (
+        'Encuentra tu persona vitamina',
+        16,
+        '¿Por qué hay personas que nos hacen sufrir tanto y otras que nos generan confianza y cuya sola presencia nos reconforta? ¿Por qué hay gente que tiene tendencia a establecer relaciones complicadas y dolorosas? ¿Amamos como nos amaron? ¿Hay «algo» bioquímico detrás de la confianza, el apego y el amor? ¿Cómo podemos acertar a la hora de elegir pareja? Estamos diseñados para vivir en familia y en sociedad, relacionarnos y querernos.',
+        '2015-04-10',
+        17,
+        9786070780363
+    ),
+    (
+        'Despertando',
+        35,
+        'En estas páginas hallarás herramientas, reflexiones, frases y ejercicios que te ayudarán a descubrir la mejor versión de ti. En cada capítulo encontrarás la guía para conectar con el amor propio, alcanzar tu bienestar, crear nuevos hábitos que te ayudarán a crecer y mejorar tus relaciones.',
+        '2023-05-16',
+        28,
+        9786070790836
+    );
+-- =====================================================--
+
+-- ======================= AUTOR TABLE =======================--
+
+CREATE TABLE Authors (
+    authorID INTEGER NOT NULL PRIMARY KEY,
+    name VARCHAR(100)
+);
+
+INSERT INTO Authors(name)
+VALUES
+('George R. R. Martin'),
+('ALI HAZELWOOD'),
+('BARBARA GIL'),
+('KAID BIRD'),
+('ANTOINE DE SAINT EXUPERY'),
+('Charles Lutwidge Dodgson'),
+('ARTURO PEREZ REVERTE'),
+('MIRANDA JAMES'),
+('JAVIER CASTILLO'),
+('LAURA DAVE'),
+('MARY CHUBB'),
+('KEN FOLLETT'),
+('GUSTAVO MATA'),
+('ILDEFONSO FALCONES'),
+('SANTIAGO POSTEGUILLO'),
+('JESSICA RIVAS'),
+('TOMAS DE KEMPIS'),
+('ZACK FRIEDMAN'),
+('MARIAN ROJAS'),
+('LETY SAHAGUN');
+
+-- ====================================================--
+
+-- ======================= GENRE TABLE =======================--
+CREATE TABLE Genre (
+    genreID INTEGER NOT NULL PRIMARY KEY ,
+    name VARCHAR(50)
+);
+
+INSERT INTO Genre(name)
+VALUES
+('Novela'),
+('No Ficción'),
+('Ficcion');
+
+-- ====================================================--
+
+-- ======================= GENRE_BOOK TABLE =======================--
+CREATE TABLE Genre_book (
+        book_ID INTEGER,
+        genreID INTEGER,
+        FOREIGN KEY (book_ID) REFERENCES Books (book_ID) ON DELETE CASCADE
+        FOREIGN KEY (genreID) REFERENCES Genre (genreID) ON DELETE CASCADE
+);
+
+INSERT INTO Genre_book(book_ID,genreID)
+VALUES
+(1,1),
+(2,1),
+(3,1),
+(4,2),
+(5,1),
+(6,1),
+(7,3),
+(8,3),
+(9,3),
+(10,3),
+(11,1),
+(12,3),
+(13,1),
+(14,3),
+(15,3),
+(16,3),
+(17,2),
+(18,3),
+(19,2),
+(20,2);
+
+-- ====================================================--
+
+-- ======================= AUTOR_BOOK TABLE =======================--
+CREATE TABLE Author_book (
+    book_ID INTEGER,
+    authorID INTEGER,
+    FOREIGN KEY (book_ID) REFERENCES Books (book_ID) ON DELETE CASCADE
+    FOREIGN KEY (authorID) REFERENCES Authors (authorID) ON DELETE CASCADE
+);
+
+INSERT INTO Author_book(book_ID,authorID)
+VALUES
+(1,1),
+(2,2),
+(3,3),
+(4,4),
+(5,5),
+(6,6),
+(7,7),
+(8,8),
+(9,9),
+(10,10),
+(11,11),
+(12,12),
+(13,13),
+(14,14),
+(15,15),
+(16,16),
+(17,17),
+(18,18),
+(19,19),
+(20,20);
+-- ====================================================--
+
+-- ======================= Feedbacks TABLE =======================--
+CREATE TABLE Feedbacks(
+    feedback_ID INTEGER NOT NULL PRIMARY KEY,
+    user_ID INTEGER, ----------------
+    book_ID INTEGER, -------------------
+    feedback TEXT NOT NULL,
+    qualification INTEGER NOT NULL CHECK (qualification >0 AND  qualification < 6),
+    date_s DATE,
+    FOREIGN KEY (user_ID ) REFERENCES Users (user_ID) ON DELETE CASCADE
+    FOREIGN KEY (book_ID) REFERENCES Books (book_ID) ON DELETE CASCADE
+);
+
+INSERT INTO Feedbacks (user_ID,book_ID,feedback, qualification,date_s)
+VALUES 
+(3,3,'Malo', 1,'2021-3-18'),
+(4,4,'Muy malo', 3,'2020-9-10'),
+(5,5,'Muy bueno', 5,'2021-12-24');
+
+-- ====================================================--
+
+-- ======================= ORDERS_STATE TABLE =======================--
+CREATE TABLE Orders_state(
+    order_stateID INTEGER NOT NULL PRIMARY KEY,
+    name VARCHAR(20)
+);
+
+INSERT INTO Orders_state (name)
+VALUES 
+('Delivered'),
+('Rent'),
+('Pending'),
+('interests');
+
+-- ====================================================--
+
+
+-- ======================= ORDERS TABLE =======================--
+CREATE TABLE Orders(
+    order_ID INTEGER NOT NULL PRIMARY KEY,
+    user_ID INTEGER,-------------
+    totalamount INTEGER DEFAULT 0,
+    order_stateID INTEGER, --------------
+    type_payID INTEGER, --------------
+    departure_date DATE, 
+    return_date DATE,
+
+    FOREIGN KEY (user_ID ) REFERENCES Users (user_ID) ON DELETE CASCADE
+    FOREIGN KEY (type_payID) REFERENCES Types_pay (type_payID) ON DELETE CASCADE
+    FOREIGN KEY (order_stateID) REFERENCES Orders_state (order_stateID) ON DELETE CASCADE
+);
+
+INSERT INTO Orders (user_ID,totalamount,order_stateID,type_payID, departure_date, return_date)
+VALUES 
+(3,25,1,1,'2023-01-15', '2023-02-15'),
+(4,25,2,2,'2023-01-20', '2023-02-20'),
+(5,30,3,3,'2023-02-17', '2023-04-17'),
+(3,9,2,1,'2023-01-15','2023-02-15'),
+(4,26,1,2,'2023-01-20','2023-02-20');
+
+DROP TABLE Orders;
+
+-- ====================================================--
+
+-- ======================= BOOKS_ORDER TABLE =======================-- 
+
+CREATE TABLE Books_order (
+    book_orderID INTEGER NOT NULL PRIMARY KEY,
+    order_ID INTEGER,
+    book_ID INTEGER,
+    FOREIGN KEY (order_ID) REFERENCES Orders (order_ID) ON DELETE CASCADE
+    FOREIGN KEY (book_ID) REFERENCES Books (book_ID) ON DELETE CASCADE
+);
+INSERT INTO Books_order(order_ID,book_ID)
+VALUES
+(3,1),
+(5,1),
+(4,2),
+(3,5),
+(3,4);
+
+-- ====================================================--
+
+-- ======================= REGISTER_INVENTORY TABLE =======================--
+CREATE TABLE Register_inventory(
+    inventory_ID INTEGER NOT NULL PRIMARY KEY,
+    book_ID INTEGER,
+    availablestock INTEGER,
+    borrowed INTEGER,
+    FOREIGN KEY (book_ID) REFERENCES Books (book_ID) ON DELETE CASCADE
+);
+
+INSERT INTO Register_inventory(book_ID,availablestock,borrowed)
+VALUES 
+    (1,10,2),
+    (2,8,1),
+    (3,12,0), 
+    (4,5,1), 
+    (5,18,1),
+    (6,30,0), 
+    (7,22,0), 
+    (8,18,0), 
+    (9,16,0), 
+    (10,20,0), 
+    (11,16,0), 
+    (12,23,0),
+    (13,19,0), 
+    (14,23,0), 
+    (15,17,0), 
+    (16,23,0), 
+    (17,27,0), 
+    (18,13,0),
+    (19,17,0),
+    (20,28,0);
+
+-- ===============================================================--
+
+-- ======================= top rated books =======================--
+
+SELECT*FROM Books
+WHERE book_id IN (
+    SELECT feedback_ID
+    FROM Feedbacks WHERE qualification > 3
+    );
+
+-- ======================= get books by name =======================--
+
+SELECT name 
+FROM Books 
+WHERE name LIKE  '%o';
+
+SELECT name 
+FROM Books 
+WHERE name LIKE  's%';
+
+-- ======================= How many books of the same genre are there =======================--
+
+SELECT
+COUNT(*) 'Cantidad generos Iguales',genreID
+FROM Genre_book
+WHERE genreID = 1
+GROUP BY genreID;
+
+-- ======================= books rented by a user (by email) the previous month =======================--
+
+SELECT gmail, book_ID, departure_date FROM Orders
+JOIN Books_order ON Orders.order_ID =  Books_order.order_ID
+JOIN Users ON Users.user_ID = Orders.user_ID
+WHERE departure_date BETWEEN '2023-01-17' and '2023-03-20';
+
+-- ======================= average number of books rented per day =======================--
+
+SELECT AVG(borrowed),departure_date,book_ID
+FROM Register_inventory
+JOIN Orders ON Orders.order_ID = Register_inventory.inventory_ID
+JOIN Orders_state ON Orders_state.order_stateID = Orders.order_stateID
+WHERE departure_date='2023-01-15' AND Orders_state.name = 'Rent' ;
+
+
+-- ====================================================--
+
+--==================================== Most rented books from the previous month ==================================================================--
+SELECT Books_order.book_ID, COUNT( Books_order.book_ID ) AS total
+FROM  Orders JOIN Books_order ON Orders.order_ID =  Books_order.order_ID
+WHERE departure_date BETWEEN '2023-01-01' and '2023-02-30'
+ORDER BY total;
+
+--========================== books that are not in the inventory but are in the book table ==================================================================--
+SELECT Books.name , Register_inventory.availablestock , Register_inventory.borrowed
+FROM Register_inventory 
+INNER JOIN Books ON Books.book_ID = Register_inventory.inventory_ID AND available = 0;
+
+--===================================DAY REPORT============================================--
+CREATE VIEW Day_report AS
+SELECT departure_date,user_ID
+FROM Orders
+WHERE departure_date = '2023-01-20';
+
+--========================== Client tasks ==================================================================--
+
+
+
+--Customer orders
+INSERT INTO Orders (user_ID,order_stateID,type_payID, departure_date, return_date)
+    SELECT 
+        3 AS user_ID,
+        1 AS order_stateID,
+        1 AS type_payID,
+        '2023-01-15' AS departure_date,
+        '2023-02-15' AS return_date
+    WHERE EXISTS (
+    SELECT 1 FROM Users JOIN Users_types 
+    ON Users.user_typeID = Users_types.user_typeID 
+    WHERE Users_types.type = 'Client' AND Users.user_ID=3
+);
+
+
+--========================== administrator tasks ==================================================================--
+
+
+INSERT INTO Books (name,price,description,date_f,quantity,ISBN)
+    SELECT 
+        'Song Of Ice And Fire Game Of Thrones' AS name,
+        25 AS price,
+        'Se acerca el invierno. Ese es el severo lema de la Casa Stark, el más septentrional de los feudos que deben lealtad al rey Robert Baratheon en el lejano Desembarco del Rey. Allí, Eddard Stark de Winterfell gobierna en nombre de Robert. Allí vive su familia en paz y comodidad: su orgullosa esposa, Catelyn; sus hijos Robb, Brandon y Rickon; sus hijas Sansa y Arya; y su hijo bastardo, Jon Snow. Lejos al norte, detrás del imponente Muro, se encuentran Wildings salvajes y cosas peores: cosas antinaturales relegadas al mito durante el verano de siglos, pero demostrando ser demasiado reales y demasiado mortales en el cambio de estación.' AS description,
+        '1996-02-21' AS date_f,
+        10 AS quantity,
+        '9780553386790'AS ISBN
+    WHERE EXISTS (
+    SELECT 1 FROM Users INNER JOIN Users_types 
+    ON Users.user_typeID = Users_types.user_typeID 
+    WHERE Users_types.type = 'Administrador' AND Users.user_ID=1
+);
+
+--Update order status
+UPDATE Orders
+SET order_stateID = 2
+WHERE EXISTS(SELECT 1 FROM Users 
+JOIN Orders ON Orders.order_stateID = Users.user_typeID
+JOIN Users_types ON Users_types.user_typeID = Users.user_typeID
+WHERE Users.user_ID = 1 AND Users_types.type = 'Administrador') AND order_ID = 2;
+
+
+
+
+
+
+--======================================= INDEX ==========================================--
+
+DROP INDEX Clients_Orders;
+
+CREATE INDEX Clients_Orders
+ON Orders (user_ID, order_ID);
+
+DROP INDEX Rent_dates_Orders;
+
+CREATE INDEX Rent_dates_Orders
+ON Orders (order_ID,departure_date,return_date);
+
+--Customer Feedbacks
+INSERT INTO Feedbacks (user_ID,book_ID,feedback, qualification,date_s)
+    SELECT 
+        3 AS user_ID,
+        3 AS order_stateID,
+        'Malo' AS feedback,
+        1 AS qualification,
+        '2023-02-15' AS date_s
+    WHERE EXISTS (
+    SELECT 1 FROM Users INNER JOIN Users_types 
+    ON Users.user_typeID = Users_types.user_typeID 
+    WHERE Users_types.type = 'Client' AND Users.user_ID=3
+);
+
+--Enable or disable Feedbacks
+DELETE FROM Feedbacks
+WHERE EXISTS(SELECT 1 FROM Users 
+JOIN Feedbacks ON Feedbacks.feedback_ID = Users.user_typeID
+JOIN Users_types ON Users_types.user_typeID = Users.user_typeID
+WHERE Users.user_ID = 1 AND Users_types.type = 'Administrador') AND feedback = 'Malo';
+
+
+-- ======================= TRIGGERS =======================--
+CREATE TRIGGER adder_availablestock
+AFTER
+UPDATE ON Orders BEGIN
+UPDATE Register_inventory
+SET availablestock =  CASE WHEN availablestock > 0 THEN availablestock -1  ELSE 0 END,
+borrowed = CASE WHEN availablestock > 0 THEN borrowed +1  ELSE borrowed END
+WHERE inventory_ID IN ( 
+    SELECT Register_inventory.inventory_ID FROM Orders
+    JOIN Books_order ON Orders.order_ID =  Books_order.order_ID
+    JOIN Books ON Books_order.book_ID = Books.book_ID
+    JOIN Register_inventory ON Register_inventory.book_ID = Books.book_ID
+    JOIN Orders_state ON Orders_state.order_stateID = Orders.order_stateID
+    WHERE Orders_state.name = 'Pending' OR Orders_state.name = 'Rent' AND Orders.order_ID = New.order_ID
+);
+END;
+-- ====================================================--
+
+-- Update and Add inventory
+UPDATE Register_inventory
+SET availablestock = 15 
+WHERE EXISTS(SELECT 1 FROM Users 
+JOIN Users_types ON Users_types.user_typeID = Users.user_typeID
+WHERE Users.user_ID = 1  AND Users_types.type = 'Administrador' AND  inventory_ID = 1);
+
+--========================== DROPS ==================================================================--
+
+DROP VIEW Shopping_Cart;
+DROP TABLE Register_inventory;
+DROP TABLE Books;
+DROP TABLE Author_book;
+DROP TABLE Authors;
+DROP TABLE Genre_book;
+DROP TABLE Genre;
+DROP TABLE Orders;
+DROP TABLE Orders_state;
+DROP TABLE Books_order;
+DROP TABLE Types_pay;
+DROP TABLE Users_types;
+DROP TABLE Feedbacks;
+DROP TABLE Users;
+DROP VIEW Reports_of_recents_books_rentals;
